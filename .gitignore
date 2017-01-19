@@ -266,5 +266,6 @@ __pycache__/
 
 # Cake - Uncomment if you are using it
 # tools/
+
 Migrations/
-taskTackerDb.db
+taskTrackerDb.db

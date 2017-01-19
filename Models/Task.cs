@@ -10,7 +10,7 @@ namespace taskTracker.Models
   {
     [Required]
     [Key]
-    public int Id {get;set;}
+    public int TaskId {get;set;}
 
     [Required]
     public string Name {get;set;}
