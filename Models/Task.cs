@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace taskTracker.Models
 {
-  public class Task
+  public class UserTask
   {
     [Required]
     [Key]

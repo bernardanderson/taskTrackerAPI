@@ -9,11 +9,11 @@ namespace taskTracker.Data
             : base(options)
         { }
 
-        public DbSet<Task> Task { get; set; }
+        public DbSet<UserTask> UserTask { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Task>()
+            modelBuilder.Entity<UserTask>()
                 .Property(b => b.CompletedOn)
                 .HasDefaultValueSql("strftime('%Y-%m-%d %H:%M:%S', 'now', 'localtime')");
             

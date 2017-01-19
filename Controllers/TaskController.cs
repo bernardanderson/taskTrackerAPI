@@ -12,32 +12,32 @@ namespace taskTrackerAPI.Controllers
 {
     [Produces("application/json")]
     [Route("[controller]")]
-    public class ProductsController : Controller
+    public class UserTasksController : Controller
     {
         private taskTrackerContext context;
 
-        public ProductsController(taskTrackerContext ctx)
+        public UserTasksController(taskTrackerContext ctx)
         {
             context = ctx;
         }
         
-        // GET /tasks
+        // GET /userTasks
         [HttpGet]
         public IActionResult Get()
         {
-            IQueryable<object> tasks = from task in context.Task select task;
+            IQueryable<object> userTasks = from userTask in context.UserTask select userTask;
 
-            if (tasks == null)
+            if (userTasks == null)
             {
                 return NotFound();
             }
 
-            return Ok(tasks);
+            return Ok(userTasks);
 
         }
 
-        // GET /tasks/5
-        [HttpGet("{id}", Name = "GetTask")]
+        // GET /userTasks/5
+        [HttpGet("{id}", Name = "GetUserTask")]
         public IActionResult Get([FromRoute] int id)
         {
             if (!ModelState.IsValid)
@@ -47,14 +47,14 @@ namespace taskTrackerAPI.Controllers
 
             try
             {
-                Task task = context.Task.Single(m => m.TaskId == id);
+                UserTask userTasks = context.UserTask.Single(m => m.TaskId == id);
 
-                if (task == null)
+                if (userTasks == null)
                 {
                     return NotFound();
                 }
                 
-                return Ok(task);
+                return Ok(userTasks);
             }
             catch (System.InvalidOperationException ex)
             {
@@ -64,23 +64,23 @@ namespace taskTrackerAPI.Controllers
 
         }
 
-        // POST /tasks
+        // POST /userTasks
         [HttpPost]
-        public IActionResult Post([FromBody] Task task)
+        public IActionResult Post([FromBody] UserTask userTasks)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            context.Task.Add(task);
+            context.UserTask.Add(userTasks);
             try
             {
                 context.SaveChanges();
             }
             catch (DbUpdateException)
             {
-                if (TaskExists(task.TaskId))
+                if (UserTaskExists(userTasks.TaskId))
                 {
                     return new StatusCodeResult(StatusCodes.Status409Conflict);
                 }
@@ -90,20 +90,20 @@ namespace taskTrackerAPI.Controllers
                 }
             }
 
-            return CreatedAtRoute("GetTask", new { id = task.TaskId }, task);
+            return CreatedAtRoute("GetUserTask", new { id = userTasks.TaskId }, userTasks);
         }
 
-        // PUT tasks/5
+        // PUT userTasks/5
         [HttpPut("{id}")]
-        public IActionResult Update(int id, [FromBody] Task task)
+        public IActionResult Update(int id, [FromBody] UserTask userTasks)
         {
-            if (task == null || task.TaskId != id)
+            if (userTasks == null || userTasks.TaskId != id)
             {
                 return BadRequest();
             }
 
-            context.Entry(task).State = EntityState.Modified;
-            if (task == null)
+            context.Entry(userTasks).State = EntityState.Modified;
+            if (userTasks == null)
             {
                 return NotFound();
             }
@@ -111,24 +111,24 @@ namespace taskTrackerAPI.Controllers
             return new NoContentResult();
         }
 
-        // DELETE tasks/5
+        // DELETE userTasks/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Task task = context.Task.Single(m => m.TaskId == id);
-            if (task == null)
+            UserTask userTasks = context.UserTask.Single(m => m.TaskId == id);
+            if (userTasks == null)
             {
                 return NotFound();
             }
 
-            context.Task.Remove(task);
+            context.UserTask.Remove(userTasks);
             context.SaveChanges();
             return new NoContentResult();
         }
 
-        private bool TaskExists(int id)
+        private bool UserTaskExists(int id)
         {
-            return context.Task.Count(e => e.TaskId == id) > 0;
+            return context.UserTask.Count(e => e.TaskId == id) > 0;
         }
     }
 }
